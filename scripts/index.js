@@ -5,27 +5,47 @@ function passval(val) {
     ip.value += val
 }
 
+function findChars(str) {
+  let chars = str.match(/[A-Z]/g);
+  if (chars === null) {
+    return [];
+  }
+  return chars;
+}
+
 function calculate() {
   
   var table = document.getElementById("truthTable");
-  let expression = document.getElementById("ip");
+    let expression = document.getElementById("ip");
+    const input = findChars(expression.value);
+    console.log(input);
 
-    // table.style.display = "block";
+    // start of Making table header
     table.innerHTML = `
-    <thead id="tableHead">
-            <tr>
-                <th scope="col">A</th>
-                <th scope="col">B</th>
-                <th scope="col">C</th>
-                <th scope="col" id="fHeader"></th>
-            </tr>
-        </thead>
+    <thead>
+    <tr id="tableHead">
+    </tr>
+    </thead>
     `;
-    document.getElementById("fHeader").innerHTML = expression.value;
+    
+    let tableHead = document.getElementById("tableHead")
+    for (const char of input) {
+        tableHead.innerHTML += `
+        <th scope="col">${char}</th>
+        `;
+    }
+    
+    tableHead.innerHTML += `<th scope="col" id="fHeader">${expression.value}</th>`;
+    
+    // end of Making table header
+
+
   // const expressions = ['(a&&b)', '((a&&b)||c)', '(!((a&&b)||c))'];
   const expressions = [expression.value];
   console.log(expressions);
-  const input = ["A", "B", "C"];
+//   const input = ["A", "B", "C"];
+    
+    
 
   const functionsByExpr = Object.fromEntries(
     expressions.map(
@@ -58,15 +78,34 @@ function calculate() {
     );
     // console.log(input.map(cell).join(' '));
 
-    let row1 = table.insertRow(table.rows.length);
-    let cell1 = row1.insertCell(0);
-    let cell2 = row1.insertCell(1);
-    let cell3 = row1.insertCell(2);
-    let cell4 = row1.insertCell(3);
-    cell1.innerHTML = input.map(cell)[0];
-    cell2.innerHTML = input.map(cell)[1];
-    cell3.innerHTML = input.map(cell)[2];
-    cell4.innerHTML = expressions.map(cell);
+      
+      if (input.length == 1) {
+          let row1 = table.insertRow(table.rows.length);
+          let cell1 = row1.insertCell(0);
+          let cell2 = row1.insertCell(1);
+          cell1.innerHTML = input.map(cell)[0];
+          cell2.innerHTML = expressions.map(cell);
+      }
+      if (input.length == 2) {
+          let row1 = table.insertRow(table.rows.length);
+          let cell1 = row1.insertCell(0);
+          let cell2 = row1.insertCell(1);
+          let cell3 = row1.insertCell(2);
+          cell1.innerHTML = input.map(cell)[0];
+          cell2.innerHTML = input.map(cell)[1];
+          cell3.innerHTML = expressions.map(cell);
+      }
+      if (input.length == 3) {
+          let row1 = table.insertRow(table.rows.length);
+          let cell1 = row1.insertCell(0);
+          let cell2 = row1.insertCell(1);
+          let cell3 = row1.insertCell(2);
+          let cell4 = row1.insertCell(3);
+          cell1.innerHTML = input.map(cell)[0];
+          cell2.innerHTML = input.map(cell)[1];
+          cell3.innerHTML = input.map(cell)[2];
+          cell4.innerHTML = expressions.map(cell);
+      }
   }
   // console.log(rows[0].a, rows[0].b, rows[0].c)
 
